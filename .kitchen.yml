@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-14.04
+  - name: centos-7.2
+  - name: centos-6.7
+  - name: centos-5.11
+
+suites:
+  - name: default
+    run_list:
+      - recipe[jenkins-cluster::default]
