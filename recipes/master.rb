@@ -10,4 +10,5 @@ firewall_rule 'redirect http to jenkins' do
   port 80
   redirect_port 8080
   action :redirect
+  not_if { windows? }
 end
