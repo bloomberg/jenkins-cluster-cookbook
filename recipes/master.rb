@@ -4,13 +4,13 @@
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
+fail if windows?
 include_recipe 'jenkins-cluster::default'
 
 firewall_rule 'redirect http to jenkins' do
   port 80
   redirect_port 8080
   action :redirect
-  not_if { windows? }
 end
 
 directory File.join(node['jenkins']['service_home'], '.jenkins', 'war') do
