@@ -47,6 +47,10 @@ user node['jenkins']['service_user'] do
   group node['jenkins']['service_group']
 end
 
+user_ulimit node['jenkins']['service_user'] do
+  filehandle_limit 8192
+end
+
 package node['jenkins']['package_name'] do
   version node['jenkins']['package_version'] if node['jenkins']['package_version']
 end
@@ -55,11 +59,4 @@ directory File.join(node['jenkins']['service_home'], 'build') do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
   mode '0755'
-end
-
-java_service node['jenkins']['service_name'] do
-  user node['jenkins']['service_user']
-  group node['jenkins']['service_group']
-  environment node['jenkins']['service_environment']
-  directory File.join(node['jenkins']['service_home'], 'build')
 end
