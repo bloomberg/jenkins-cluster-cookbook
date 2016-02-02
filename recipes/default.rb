@@ -45,6 +45,7 @@ group node['jenkins']['service_group']
 user node['jenkins']['service_user'] do
   home node['jenkins']['service_home']
   group node['jenkins']['service_group']
+  manage_home true
 end
 
 user_ulimit node['jenkins']['service_user'] do

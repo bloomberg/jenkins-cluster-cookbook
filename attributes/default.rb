@@ -8,6 +8,5 @@ default['jenkins']['service_name'] = 'jenkins'
 default['jenkins']['service_user'] = 'butler'
 default['jenkins']['service_group'] = 'butler'
 default['jenkins']['service_home'] = '/home/butler'
-default['jenkins']['service_environment'] = {}
 
 default['jenkins']['package_name'] = 'jenkins'

@@ -15,3 +15,6 @@ suites:
   - name: default
     run_list:
       - recipe[jenkins-cluster::default]
+  - name: master
+    run_list:
+      - recipe[jenkins-cluster::master]
