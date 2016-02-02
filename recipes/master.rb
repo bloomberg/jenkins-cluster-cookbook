@@ -35,13 +35,13 @@ template 'jenkins - defaults file' do
   path '/etc/sysconfig/jenkins' if rhel?
   path '/etc/default/jenkins' if debian?
   source 'jenkins-config.sh.erb'
-  variables({
+  variables(
     directory: File.join(node['jenkins']['service_home'], 'build'),
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
     webroot: File.join(node['jenkins']['service_home'], '.jenkins', 'war'),
     log_file: log_file
-  })
+  )
 end
 
 service node['jenkins']['service_name'] do
