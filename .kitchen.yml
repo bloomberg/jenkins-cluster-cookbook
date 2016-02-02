@@ -10,6 +10,8 @@ platforms:
   - name: centos-7.2
   - name: centos-6.7
   - name: centos-5.11
+  - name: windows-2012r2
+  - name: windows-2008r2
 
 suites:
   - name: default
@@ -18,3 +20,6 @@ suites:
   - name: master
     run_list:
       - recipe[jenkins-cluster::master]
+    excludes:
+      - windows-2012r2
+      - windows-2008r2

@@ -50,6 +50,7 @@ end
 
 user_ulimit node['jenkins']['service_user'] do
   filehandle_limit 8192
+  not_if { windows? }
 end
 
 package node['jenkins']['package_name'] do
