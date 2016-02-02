@@ -6,6 +6,7 @@
 #
 include_recipe 'chef-sugar::default'
 include_recipe 'chef-vault::default'
+include_recipe 'build-essentials::default'
 include_recipe 'java-service::default'
 include_recipe 'git::default'
 include_recipe 'selinux::disabled'
@@ -34,3 +35,10 @@ node_package 'grunt'
 
 include_recipe 'yum-jenkins::default' if rhel?
 include_recipe 'apt-jenkins::default' if debian?
+
+group node['jenkins']['service_group']
+
+user node['jenkins']['service_user'] do
+  home node['jenkins']['service_home']
+  group node['jenkins']['service_group']
+end
