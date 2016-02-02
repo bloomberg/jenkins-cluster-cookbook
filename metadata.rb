@@ -15,7 +15,7 @@ supports 'aix'
 supports 'solaris'
 
 depends 'apt-jenkins'
-depends 'build-essentials'
+depends 'build-essential'
 depends 'chef-vault'
 depends 'chef-sugar'
 depends 'firewall'

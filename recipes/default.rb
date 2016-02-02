@@ -6,7 +6,14 @@
 #
 include_recipe 'chef-sugar::default'
 include_recipe 'chef-vault::default'
-include_recipe 'build-essentials::default'
+
+include_recipe 'yum-jenkins::default' if rhel?
+if debian?
+  node.default['apt']['compile_time_update'] = true
+  include_recipe 'apt-jenkins::default'
+end
+
+include_recipe 'build-essential::default'
 include_recipe 'java-service::default'
 include_recipe 'git::default'
 include_recipe 'selinux::disabled'
@@ -33,12 +40,26 @@ include_recipe 'poise-javascript::default'
 node_package 'bower'
 node_package 'grunt'
 
-include_recipe 'yum-jenkins::default' if rhel?
-include_recipe 'apt-jenkins::default' if debian?
-
 group node['jenkins']['service_group']
 
 user node['jenkins']['service_user'] do
   home node['jenkins']['service_home']
   group node['jenkins']['service_group']
+end
+
+package node['jenkins']['package_name'] do
+  version node['jenkins']['package_version'] if node['jenkins']['package_version']
+end
+
+directory File.join(node['jenkins']['service_home'], 'build') do
+  owner node['jenkins']['service_user']
+  group node['jenkins']['service_group']
+  mode '0755'
+end
+
+java_service node['jenkins']['service_name'] do
+  user node['jenkins']['service_user']
+  group node['jenkins']['service_group']
+  environment node['jenkins']['service_environment']
+  directory File.join(node['jenkins']['service_home'], 'build')
 end
