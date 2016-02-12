@@ -7,8 +7,8 @@
 # Copyright 2012-2015, Chef Software, Inc.
 # Copyright 2014-2016, Bloomberg Finance L.P.
 #
-fail if windows?
 include_recipe 'jenkins-cluster::default'
+fail unless linux?
 
 firewall_rule 'redirect http to jenkins' do
   port 80

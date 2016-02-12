@@ -19,7 +19,7 @@ end
 include_recipe 'build-essential::default'
 include_recipe 'java-service::default'
 include_recipe 'git::default'
-include_recipe 'selinux::disabled'
+include_recipe 'selinux::disabled' if linux?
 
 node.default['firewall']['allow_winrm'] = true if windows?
 node.default['firewall']['allow_ssh'] = true unless windows?
