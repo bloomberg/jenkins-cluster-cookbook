@@ -58,9 +58,10 @@ end
 
 package node['jenkins']['package_name'] do
   version node['jenkins']['package_version'] if node['jenkins']['package_version']
+  action :upgrade
 end
 
-directory File.join(node['jenkins']['service_home'], 'build') do
+directory File.join(node['jenkins']['service_home'], 'workspace') do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
   mode '0755'
