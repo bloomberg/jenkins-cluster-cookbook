@@ -13,7 +13,7 @@ fail unless linux?
 firewall_rule 'redirect http to jenkins' do
   port 80
   redirect_port 8080
-  action :redirect
+  command :redirect
 end
 
 directory File.join(node['jenkins']['service_home'], '.jenkins', 'war') do
@@ -39,7 +39,7 @@ template 'jenkins - defaults file' do
   path '/etc/default/jenkins' if debian?
   source 'jenkins-config.sh.erb'
   variables(
-    directory: File.join(node['jenkins']['service_home'], 'build'),
+    directory: File.join(node['jenkins']['service_home'], 'workspace'),
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
     webroot: File.join(node['jenkins']['service_home'], '.jenkins', 'war'),
