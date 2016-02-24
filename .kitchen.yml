@@ -3,10 +3,14 @@ driver:
   name: vagrant
 
 provisioner:
-  name: chef_zero
+  name: policyfile_zero
+
+verifier:
+  name: inspec
 
 platforms:
   - name: ubuntu-14.04
+  - name: ubuntu-12.04
   - name: centos-7.2
   - name: centos-6.7
   - name: centos-5.11
@@ -15,11 +19,11 @@ platforms:
 
 suites:
   - name: default
-    run_list:
-      - recipe[jenkins-cluster::default]
+    provisioner:
+      policyfile: test/fixtures/policies/default.rb
   - name: master
-    run_list:
-      - recipe[jenkins-cluster::master]
+    provisioner:
+      policyfile: test/fixtures/policies/master.rb
     excludes:
       - windows-2012r2
       - windows-2008r2
