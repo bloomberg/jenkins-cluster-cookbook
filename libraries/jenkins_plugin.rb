@@ -11,6 +11,10 @@ require 'poise'
 
 module JenkinsClusterCookbook
   module Resource
+    # A `jenkins_plugin` resource which manages the installation of
+    # the plugins of a Jenkins instance.
+    # @provides create
+    # @provides remove
     # @since 1.0
     class JenkinsPlugin < Chef::Resource
       include Poise
@@ -32,12 +36,14 @@ module JenkinsClusterCookbook
       end
 
       def filepath
-        ::File.join(plugin_directory, "#{plugin_name}.jpi"})
+        ::File.join(plugin_directory, "#{plugin_name}.jpi")
       end
     end
   end
 
   module Provider
+    # @provides create
+    # @provides remove
     # @since 1.0
     class JenkinsPlugin < Chef::Provider
       include Poise
