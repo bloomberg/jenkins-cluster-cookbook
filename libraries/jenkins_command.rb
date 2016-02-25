@@ -11,7 +11,9 @@ require 'poise'
 
 module JenkinsClusterCookbook
   module Resource
-    # A resource which executes commands with the Jenkins CLI JAR.
+    # A `jenkins_command` resource which executes a Java command using
+    # the Jenkins CLI.
+    # @provides execute
     # @since 1.0
     class JenkinsCommand < Chef::Resource
       include Poise(fused: true)
