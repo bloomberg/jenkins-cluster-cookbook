@@ -1,29 +1,34 @@
 ---
 driver:
   name: vagrant
-
 provisioner:
-  name: policyfile_zero
-
+  name: chef_zero
 verifier:
   name: inspec
-
 platforms:
+  - name: ubuntu-16.04
+    named_run_list: ubuntu
   - name: ubuntu-14.04
+    named_run_list: ubuntu
   - name: ubuntu-12.04
+    named_run_list: ubuntu
   - name: centos-7.2
+    named_run_list: redhat
   - name: centos-6.7
+    named_run_list: redhat
   - name: centos-5.11
+    named_run_list: redhat
   - name: windows-2012r2
+    named_run_list: windows
   - name: windows-2008r2
-
+    named_run_list: windows
 suites:
   - name: default
     provisioner:
-      policyfile: test/fixtures/policies/default.rb
+      policyfile_path: test/fixtures/policies/default.rb
   - name: master
     provisioner:
-      policyfile: test/fixtures/policies/master.rb
+      policyfile_path: test/fixtures/policies/master.rb
     excludes:
       - windows-2012r2
       - windows-2008r2
