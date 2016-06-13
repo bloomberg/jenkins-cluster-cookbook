@@ -7,8 +7,7 @@
 # Copyright 2012-2015, Chef Software, Inc.
 # Copyright 2014-2016, Bloomberg Finance L.P.
 #
-include_recipe 'chef-sugar::default'
-include_recipe 'chef-vault::default'
+include_recipe 'chef-sugar::default', 'chef-vault::default'
 
 include_recipe 'yum-jenkins::default' if rhel?
 if debian?
@@ -44,11 +43,16 @@ node_package 'bower'
 node_package 'grunt'
 
 group node['jenkins']['service_group']
-
 user node['jenkins']['service_user'] do
   home node['jenkins']['service_home']
   group node['jenkins']['service_group']
   manage_home true
+end
+
+directory node['jenkins']['service_home'] do
+  recursive true
+  owner node['jenkins']['service_user']
+  group node['jenkins']['service_group']
 end
 
 user_ulimit node['jenkins']['service_user'] do
@@ -56,13 +60,12 @@ user_ulimit node['jenkins']['service_user'] do
   not_if { windows? }
 end
 
-package node['jenkins']['package_name'] do
-  version node['jenkins']['package_version'] if node['jenkins']['package_version']
-  action :upgrade
-end
-
 directory File.join(node['jenkins']['service_home'], 'workspace') do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
   mode '0755'
+end
+
+install = jenkins_installation node['jenkins']['service_name'] do
+  version node['jenkins']['version']
 end
