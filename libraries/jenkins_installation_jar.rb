@@ -17,6 +17,7 @@ module JenkinsClusterCookbook
     class JenkinsInstallationJar < Chef::Provider
       include Poise(inversion: :jenkins_installation)
       provides(:jar)
+      inversion_attribute('jenkins')
 
       # Set the default inversion options.
       # @param [Chef::Node] node

@@ -8,8 +8,6 @@
 # Copyright 2014-2016, Bloomberg Finance L.P.
 #
 default['jenkins']['service_name'] = 'jenkins'
-default['jenkins']['service_user'] = 'butler'
-default['jenkins']['service_group'] = 'butler'
-default['jenkins']['service_home'] = '/home/butler'
-
-default['jenkins']['package_name'] = 'jenkins'
+default['jenkins']['service_user'] = 'jenkins'
+default['jenkins']['service_group'] = 'jenkins'
+default['jenkins']['service_home'] = '/var/lib/jenkins'

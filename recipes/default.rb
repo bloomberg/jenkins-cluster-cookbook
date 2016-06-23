@@ -72,6 +72,4 @@ docker_service 'default' do
   action [:create, :start]
 end
 
-install = jenkins_installation node['jenkins']['service_name'] do
-  version node['jenkins']['version']
-end
+jenkins_installation node['jenkins']['service_name']

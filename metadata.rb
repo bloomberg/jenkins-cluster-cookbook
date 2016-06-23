@@ -10,6 +10,7 @@ issues_url 'https://github.com/bloomberg/jenkins-cluster-cookbook/issues'
 
 supports 'ubuntu', '>= 12.04'
 supports 'centos', '>= 5.8'
+supports 'redhat', '>= 5.8'
 supports 'aix'
 supports 'solaris'
 supports 'windows'

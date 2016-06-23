@@ -24,7 +24,7 @@ module JenkinsClusterCookbook
       # @!attribute version
       # The version of Jenkins to install.
       # @return [String]
-      attribute(:version, kind_of: String, default: '')
+      attribute(:version, kind_of: String, default: '2.10-1.1')
 
       # @return [String]
       def jenkins_jarfile
