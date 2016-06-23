@@ -1,3 +1,6 @@
+require 'serverspec'
+set :backend, :exec
+
 unless os[:family] == 'windows'
   describe group('butler') do
     it { should exist }
@@ -9,8 +12,10 @@ unless os[:family] == 'windows'
     its(:home) { should eq '/home/butler' }
   end
 
-  describe package('jenkins') do
-    it { should be_installed }
+  %w{git jenkins}.each do |name|
+    describe package(name) do
+      it { should be_installed }
+    end
   end
 
   describe file('/home/butler/workspace') do

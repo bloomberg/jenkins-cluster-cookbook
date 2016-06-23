@@ -4,19 +4,17 @@ gem 'poise-boiler'
 
 group :lint do
   gem 'rubocop'
-  gem 'foodcritic'
+  gem 'cookstyle'
 end
 
 group :test do
   gem 'chef-dk'
   gem 'chefspec'
-  gem 'inspec'
-  gem 'kitchen-inspec'
+  gem 'serverspec'
 end
 
 group :development do
   gem 'awesome_print'
-  gem 'rake'
   gem 'stove'
 end
 
