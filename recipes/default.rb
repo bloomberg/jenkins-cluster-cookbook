@@ -16,8 +16,10 @@ if debian?
 end
 
 include_recipe 'build-essential::default'
-include_recipe 'java-service::default'
+include_recipe 'chef-dk::default'
 include_recipe 'git::default'
+include_recipe 'java-service::default'
+include_recipe 'terraform::default'
 include_recipe 'selinux::disabled' if linux?
 
 node.default['firewall']['allow_winrm'] = true if windows?
@@ -64,6 +66,10 @@ directory File.join(node['jenkins']['service_home'], 'workspace') do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
   mode '0755'
+end
+
+docker_service 'default' do
+  action [:create, :start]
 end
 
 install = jenkins_installation node['jenkins']['service_name'] do
