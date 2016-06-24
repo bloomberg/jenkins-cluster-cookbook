@@ -17,90 +17,19 @@ module JenkinsClusterCookbook
     # @provides remove
     # @since 1.0
     class JenkinsPlugin < Chef::Resource
-      include Poise
+      include Poise(inversion: true, parent: :jenkins_service)
       provides(:jenkins_plugin)
       default_action(:create)
       actions(:create, :remove)
 
-      property(:owner, kind_of: String, default: 'jenkins')
-      property(:group, kind_of: String, default: 'jenkins')
-
-      property(:plugin_name, kind_of: String, name_property: true)
+      # @!attribute plugin_name
+      # The name of the Jenkins plugin to install.
+      # @return [String]
+      property(:plugin_name, kind_of: String, identity: true)
+      # @!attribute version
+      # The version of the Jenkins plugin to install.
+      # @return [String]
       property(:version, kind_of: String, default: 'latest')
-      property(:plugin_directory, kind_of: String, default: '/home/jenkins/plugins')
-      property(:source, kind_of: String)
-      property(:options, option_collector: true, default: {})
-
-      def data_directory
-        ::File.join(plugin_directory, name)
-      end
-
-      def filepath
-        ::File.join(plugin_directory, "#{plugin_name}.jpi")
-      end
-    end
-  end
-
-  module Provider
-    # @provides create
-    # @provides remove
-    # @since 1.0
-    class JenkinsPlugin < Chef::Provider
-      include Poise
-      provides(:jenkins_plugin)
-
-      def load_current_resource
-      end
-
-      def action_create
-        notifying_block do
-          directory new_resource.data_directory do
-            recursive true
-            owner new_resource.owner
-            group new_resource.group
-            mode '0755'
-          end
-
-          if new_resource.remote_file
-            install_from_url
-          else
-            install_from_update_center
-          end
-        end
-      end
-
-      def action_remove
-        notifying_block do
-          directory current_resource.data_directory do
-            recursive true
-            action :delete
-          end
-
-          file current_resource.filepath do
-            backup false
-            action :delete
-          end
-        end
-      end
-
-      private
-      def install_from_url(name, version, url, checksum)
-        remote_file new_resource.filepath do
-          owner new_resource.owner
-          group new_resource.group
-          mode '0644'
-          source new_resource.remote_url
-          checksum new_resource.remote_checksum
-          backup false
-        end
-
-        jenkins_command "#{new_resource.plugin_name}@#{new_resource.version}" do
-          command ['install-plugin', Shellwords.escape(plugin_name), '-name', plugin_name]
-        end
-      end
-
-      def install_from_update_center
-      end
     end
   end
 end

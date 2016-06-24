@@ -25,7 +25,7 @@ module JenkinsClusterCookbook
       property(:warfile, kind_of: String, required: true)
 
       def command
-        "/usr/bin/env java -jar #{warfile}"
+        "/usr/bin/env java -jar #{warfile} -Xmx2048m -XX:MaxPermSize=512m"
       end
     end
   end
