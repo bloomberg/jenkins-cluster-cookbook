@@ -1,6 +1,11 @@
 ---
 driver:
   name: vagrant
+  config:
+    linked_clone: true
+  customize:
+    cpus: 2
+    memory: 2048
 provisioner:
   name: chef_zero
 platforms:
@@ -22,10 +27,10 @@ platforms:
     named_run_list: windows
 suites:
   - name: package
+    attributes:
+      jenkins:
+        provider: package
   - name: war
     attributes:
       jenkins:
         provider: war
-    excludes:
-      - windows-2012r2
-      - windows-2008r2
