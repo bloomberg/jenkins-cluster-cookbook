@@ -43,7 +43,7 @@ template 'jenkins - defaults file' do
     directory: File.join(node['jenkins']['service_home'], 'workspace'),
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
-    webroot: File.join(node['jenkins']['service_home'], '.jenkins', 'war'),
+    webroot: node['jenkins']['service_home'],
     log_file: log_file
   )
 end
