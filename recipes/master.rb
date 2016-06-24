@@ -10,7 +10,7 @@
 include_recipe 'jenkins-cluster::default'
 fail unless linux?
 
-jenkins_installation node['jenkins']['service_name']
+install = jenkins_installation node['jenkins']['service_name']
 
 firewall_rule 'redirect http to jenkins' do
   port 80
@@ -49,7 +49,7 @@ template 'jenkins - defaults file' do
 end
 
 poise_service node['jenkins']['service_name'] do
-  command ''
+  command "/usr/bin/env java -jar #{install.jenkins_warfile}"
   directory node['jenkins']['service_home']
   user node['jenkins']['service_user']
 end

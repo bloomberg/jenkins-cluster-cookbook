@@ -27,8 +27,8 @@ module JenkinsClusterCookbook
       property(:version, kind_of: String, default: '1.651')
 
       # @return [String]
-      def jenkins_jarfile
-        @jarfile ||= provider_for_action(:jenkins_jarfile).jenkins_jarfile
+      def jenkins_warfile
+        @warfile ||= provider_for_action(:jenkins_warfile).jenkins_warfile
       end
     end
   end
