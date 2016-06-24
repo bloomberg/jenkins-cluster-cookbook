@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 gem 'poise', '~> 2.2'
+gem 'poise-service'
 gem 'poise-boiler'
+gem 'chef-sugar'
 
 group :lint do
   gem 'rubocop'
