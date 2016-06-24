@@ -10,12 +10,19 @@
 include_recipe 'jenkins-cluster::default'
 fail unless linux?
 
+node.default['haproxy']['incoming_port'] = 80
+node.default['haproxy']['members'] = [
+  {'hostname' => 'localhost', 'ipaddress' => '127.0.0.1', 'port' => 8080}
+]
+include_recipe 'haproxy::default'
+
 install = jenkins_installation node['jenkins']['service_name']
 
-firewall_rule 'redirect http to jenkins' do
+firewall_rule 'http' do
   port 80
-  redirect_port 8080
-  command :redirect
+  protocol :tcp
+  position 1
+  command :allow
 end
 
 directory File.join(node['jenkins']['service_home'], 'plugins') do
