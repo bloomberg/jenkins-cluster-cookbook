@@ -1,0 +1,7 @@
+- [ ] Jenkins service resource (Poise container)
+- [ ] Jenkins plugin resource
+- [ ] Jenkins script resource
+- [x] Jenkins install resource
+- [x] Jenkins command resource
+- [ ] Jenkins config resource
+- [ ] Jenkins credential resource
