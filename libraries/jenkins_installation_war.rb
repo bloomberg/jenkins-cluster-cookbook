@@ -19,22 +19,29 @@ module JenkinsClusterCookbook
       provides(:war)
       inversion_attribute('jenkins')
 
+      # @param [Chef::Node] _node
+      # @param [Resource::JenkinsInstallation] _resource
+      # @return [TrueClass, FalseClass]
+      # @api private
+      def self.provides_auto?(_node, _resource)
+        true
+      end
+
       # Set the default inversion options.
       # @param [Chef::Node] node
-      # @param [Chef::Resource] _resource
+      # @param [Resource::JenkinsInstallation] _resource
       # @return [Hash]
       # @api private
-      def self.default_inversion_attributes(node, _resource)
-        super.merge(version: '1.651',
+      def self.default_inversion_options(_node, resource)
+        super.merge(version: resource.version,
           warfile_url: 'http://mirrors.jenkins-ci.org/war',
-          warfile_checksum: default_warfile_checksum)
+          warfile_checksum: default_warfile_checksum(resource.version))
       end
 
       def action_create
         notifying_block do
           directory jenkins_prefix do
-            owner new_resource.owner
-            group new_resource.group
+            recursive true
             mode '0755'
           end
 
@@ -64,8 +71,8 @@ module JenkinsClusterCookbook
         options.fetch(:program, ::File.join(jenkins_prefix, 'jenkins.war'))
       end
 
-      def self.default_warfile_checksum
-        case options[:version]
+      def self.default_warfile_checksum(version)
+        case version
         when '1.651' then '9fe9382e1443bb27de55dce15850bc0a0890d8aa837c3839fcf4407e1f7e4993'
         when '1.658' then '108a496a01361e598cacbcdc8fcf4070e4dab215fb76f759dd75384af7104a3c'
         when '2.7' then '2fead2f4aa0a8ba7d76b43fdb4ff5350bdd686bc21371f600861b7a85c51c605'

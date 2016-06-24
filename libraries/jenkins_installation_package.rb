@@ -19,21 +19,13 @@ module JenkinsClusterCookbook
       provides(:package)
       inversion_attribute('jenkins')
 
-      # @param [Chef::Node] _node
-      # @param [Chef::Resource] _resource
-      # @return [TrueClass, FalseClass]
-      # @api private
-      def self.provides_auto?(_node, _resource)
-        true
-      end
-
       # Set the default inversion options.
       # @param [Chef::Node] node
       # @param [Chef::Resource] _resource
       # @return [Hash]
       # @api private
-      def self.default_inversion_options(node, _resource)
-        super.merge(package_name: 'jenkins', version: '2.10.1-1')
+      def self.default_inversion_options(_node, resource)
+        super.merge(package_name: 'jenkins', version: resource.version)
       end
 
       def action_create

@@ -21,16 +21,10 @@ module JenkinsClusterCookbook
       actions(:create, :remove)
       default_action(:create)
 
-      # @!attribute user
-      # @return [String]
-      property(:owner, kind_of: String, default: 'jenkins')
-      # @!attribute group
-      # @return [String]
-      property(:group, kind_of: String, default: 'jenkins')
       # @!attribute version
       # The version of Jenkins to install.
       # @return [String]
-      property(:version, kind_of: [NilClass, String], default: nil)
+      property(:version, kind_of: String, default: '1.651')
 
       # @return [String]
       def jenkins_jarfile
