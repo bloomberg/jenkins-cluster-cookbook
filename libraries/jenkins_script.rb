@@ -21,8 +21,8 @@ module JenkinsClusterCookbook
 
       property('', template: true)
       property(:path, kind_of: String, default: lazy { Tempfile.new('groovy').path })
-      property(:owner, kind_of: String, default: 'butler')
-      property(:group, kind_of: String, default: 'butler')
+      property(:owner, kind_of: String, default: 'jenkins')
+      property(:group, kind_of: String, default: 'jenkins')
       property(:mode, kind_of: String, default: '0400')
 
       def sensitive

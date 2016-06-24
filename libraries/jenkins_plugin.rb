@@ -22,12 +22,12 @@ module JenkinsClusterCookbook
       default_action(:create)
       actions(:create, :remove)
 
-      property(:owner, kind_of: String, default: 'butler')
-      property(:group, kind_of: String, default: 'butler')
+      property(:owner, kind_of: String, default: 'jenkins')
+      property(:group, kind_of: String, default: 'jenkins')
 
       property(:plugin_name, kind_of: String, name_property: true)
       property(:version, kind_of: String, default: 'latest')
-      property(:plugin_directory, kind_of: String, default: '/home/butler/plugins')
+      property(:plugin_directory, kind_of: String, default: '/home/jenkins/plugins')
       property(:source, kind_of: String)
       property(:options, option_collector: true, default: {})
 
