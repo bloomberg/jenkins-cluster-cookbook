@@ -34,11 +34,12 @@ module JenkinsClusterCookbook
       # @api private
       def self.default_inversion_options(_node, resource)
         super.merge(version: resource.version,
-          warfile_url: 'http://mirrors.jenkins-ci.org/war',
+          warfile_url: "http://mirrors.jenkins-ci.org/war/%{version}/jenkins.war",
           warfile_checksum: default_warfile_checksum(resource.version))
       end
 
       def action_create
+        url = options[:warfile_url] % {version: options[:version]}
         notifying_block do
           directory jenkins_prefix do
             recursive true
@@ -46,7 +47,7 @@ module JenkinsClusterCookbook
           end
 
           remote_file jenkins_warfile do
-            source options[:warfile_url]
+            source url
             checksum options[:warfile_checksum]
           end
         end
@@ -79,6 +80,7 @@ module JenkinsClusterCookbook
         when '2.8' then '586b3ba1d1fcfd54a719fd34178b486a963eda91d7c56c98d7cb8ad82c6c050f'
         when '2.9' then 'a2fa588244f82ee82ba8951a9611629109bd35a63ce48d15dae7c925c2da0a51'
         when '2.10' then '47a64a0b32b1c3e1496e4663b9b3d94f4faa851e276a47b881ce8507712ea081'
+        else nil
         end
       end
     end
