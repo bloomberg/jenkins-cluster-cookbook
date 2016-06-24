@@ -48,8 +48,8 @@ template 'jenkins - defaults file' do
   )
 end
 
-poise_service node['jenkins']['service_name'] do
-  command "/usr/bin/env java -jar #{install.jenkins_warfile}"
+jenkins_service node['jenkins']['service_name'] do
+  warfile install.jenkins_warfile
   directory node['jenkins']['service_home']
   user node['jenkins']['service_user']
 end
