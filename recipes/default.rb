@@ -63,5 +63,3 @@ end
 docker_service 'default' do
   action [:create, :start]
 end
-
-jenkins_installation node['jenkins']['service_name']

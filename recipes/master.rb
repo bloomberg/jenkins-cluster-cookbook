@@ -10,6 +10,8 @@
 include_recipe 'jenkins-cluster::default'
 fail unless linux?
 
+jenkins_installation node['jenkins']['service_name']
+
 firewall_rule 'redirect http to jenkins' do
   port 80
   redirect_port 8080
