@@ -21,12 +21,11 @@ platforms:
   - name: windows-2008r2
     named_run_list: windows
 suites:
-  - name: default
-    provisioner:
-      policyfile_path: test/fixtures/policies/default.rb
-  - name: master
-    provisioner:
-      policyfile_path: test/fixtures/policies/master.rb
+  - name: package
+  - name: war
+    attributes:
+      jenkins:
+        provider: war
     excludes:
       - windows-2012r2
       - windows-2008r2

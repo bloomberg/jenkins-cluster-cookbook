@@ -33,7 +33,7 @@ module JenkinsClusterCookbook
       # @return [Hash]
       # @api private
       def self.default_inversion_options(node, _resource)
-        super.merge(package_name: 'jenkins')
+        super.merge(package_name: 'jenkins', version: '2.10.1-1')
       end
 
       def action_create
@@ -57,8 +57,8 @@ module JenkinsClusterCookbook
       end
 
       # @return [String]
-      def jenkins_jarfile
-        options.fetch(:program, '')
+      def jenkins_warfile
+        options.fetch(:program, '/usr/lib/jenkins/jenkins.war')
       end
     end
   end

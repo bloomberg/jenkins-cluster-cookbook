@@ -8,6 +8,7 @@
 # Copyright 2014-2016, Bloomberg Finance L.P.
 #
 include_recipe 'chef-sugar::default', 'chef-vault::default'
+require 'chef/sugar/core_extensions'
 
 include_recipe 'yum-jenkins::default' if rhel?
 if debian?

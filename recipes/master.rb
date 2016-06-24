@@ -16,8 +16,7 @@ firewall_rule 'redirect http to jenkins' do
   command :redirect
 end
 
-directory File.join(node['jenkins']['service_home'], '.jenkins', 'war') do
-  recursive true
+directory File.join(node['jenkins']['service_home'], 'plugins') do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
   mode '0755'
@@ -47,7 +46,8 @@ template 'jenkins - defaults file' do
   )
 end
 
-service node['jenkins']['service_name'] do
-  supports reload: true, restart: true
-  action [:enable, :start]
+poise_service node['jenkins']['service_name'] do
+  command ''
+  directory node['jenkins']['service_home']
+  user node['jenkins']['service_user']
 end
