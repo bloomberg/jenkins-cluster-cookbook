@@ -25,7 +25,7 @@ module JenkinsClusterCookbook
       property(:warfile, kind_of: String, required: true)
 
       def command
-        "/usr/bin/env java -jar #{warfile} -Xmx2048m -XX:MaxPermSize=512m"
+        "/usr/bin/java ${JENKINS_JAVA_OPTIONS} -jar #{warfile} --httpPort=${JENKINS_PORT} --httpListenAddress=${JENKINS_LISTEN_ADDRESS} ${JENKINS_ARGS}"
       end
     end
   end
@@ -39,10 +39,10 @@ module JenkinsClusterCookbook
 
       private
       def service_options(resource)
-        resource.service_name(new_resource.service_name)
         resource.command(new_resource.command)
         resource.user(new_resource.user)
         resource.directory(new_resource.directory)
+        resource.options(:systemd, template: 'jenkins-cluster:systemd.service.erb')
       end
     end
   end

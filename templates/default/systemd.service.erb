@@ -1,0 +1,14 @@
+[Unit]
+Description=<%= @name %>
+After=network.target
+Requires=network.target
+
+[Service]
+EnvironmentFile=/etc/default/jenkins
+ExecStart=<%= @command %>
+Restart=<%= @restart_mode %>
+User=<%= @user %>
+WorkingDirectory=<%= @directory %>
+
+[Install]
+WantedBy=multi-user.target

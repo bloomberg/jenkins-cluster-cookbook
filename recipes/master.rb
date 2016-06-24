@@ -42,12 +42,11 @@ node.default['logrotate']['global'][log_file] = {
 }
 include_recipe 'logrotate::global'
 
-template 'jenkins - defaults file' do
-  path '/etc/sysconfig/jenkins' if rhel?
-  path '/etc/default/jenkins' if debian?
+template '/etc/default/jenkins' do
   source 'jenkins-config.sh.erb'
   variables(
     directory: File.join(node['jenkins']['service_home'], 'workspace'),
+    java_options: node['jenkins']['java_options'],
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
     webroot: node['jenkins']['service_home'],
