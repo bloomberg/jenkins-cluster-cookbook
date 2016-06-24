@@ -38,6 +38,12 @@ module JenkinsClusterCookbook
 
       def action_create
         notifying_block do
+          include_recipe 'yum-jenkins::default' if rhel?
+          if debian?
+            node.default['apt']['compile_time_update'] = true
+            include_recipe 'apt-jenkins::default'
+          end
+
           package_version = options[:version]
           package_source = options[:source]
           package options[:package_name] do

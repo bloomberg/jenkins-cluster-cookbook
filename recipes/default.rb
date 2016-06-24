@@ -10,15 +10,12 @@
 include_recipe 'chef-sugar::default', 'chef-vault::default'
 require 'chef/sugar/core_extensions'
 
-include_recipe 'yum-jenkins::default' if rhel?
-if debian?
-  node.default['apt']['compile_time_update'] = true
-  include_recipe 'apt-jenkins::default'
-end
-
 include_recipe 'build-essential::default'
+include_recipe 'cmake::default'
 include_recipe 'chef-dk::default'
 include_recipe 'git::default'
+include_recipe 'mercurial::default'
+include_recipe 'subversion::client'
 include_recipe 'java-service::default'
 include_recipe 'terraform::default'
 include_recipe 'selinux::disabled' if linux?
