@@ -20,6 +20,7 @@ include_recipe 'java-service::default'
 include_recipe 'terraform::default'
 include_recipe 'selinux::disabled' if linux?
 
+node.default['firewall']['redhat7_iptables'] = true
 node.default['firewall']['allow_winrm'] = true if windows?
 node.default['firewall']['allow_ssh'] = true unless windows?
 include_recipe 'firewall::default'
