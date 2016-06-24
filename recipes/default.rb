@@ -49,12 +49,6 @@ user node['jenkins']['service_user'] do
   manage_home true
 end
 
-directory node['jenkins']['service_home'] do
-  recursive true
-  owner node['jenkins']['service_user']
-  group node['jenkins']['service_group']
-end
-
 user_ulimit node['jenkins']['service_user'] do
   filehandle_limit 8192
   not_if { windows? }
