@@ -49,8 +49,7 @@ template '/etc/default/jenkins' do
     java_options: node['jenkins']['java_options'],
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
-    webroot: node['jenkins']['service_home'],
-    log_file: log_file
+    log_file: File.join(node['jenkins']['service_home'], 'jenkins.log')
   )
 end
 
