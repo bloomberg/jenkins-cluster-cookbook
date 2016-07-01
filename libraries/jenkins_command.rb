@@ -20,21 +20,35 @@ module JenkinsClusterCookbook
       provides(:jenkins_command)
 
       property(:command, kind_of: [String, Array], name_attribute: true)
-      property(:jar_path, kind_of: String, default: '/usr/share/jenkins/cli/java/cli.jar')
+      property(:jarfile, kind_of: String, default: '/usr/local/share/jenkins/cli/java/cli.jar')
       property(:environment, option_collector: true, default: {})
       property(:options, option_collector: true, default: {})
 
       action(:execute) do
-        command = ['/usr/bin/env java', new_resource.jar_path]
-        command << ['-s', URI.escape(options[:endpoint])] if options[:endpoint]
+        options = new_resource.options
+        endpoint = options[:endpoint] || 'http://127.0.0.1:8080'
+
+        command = ['/usr/bin/env java -jar', new_resource.jarfile]
+        command << ['-s', URI.escape(endpoint)]
         command << ['-p', URI.escape(options[:proxy])] if options[:proxy]
         command << ['-i', options[:key]] if options[:key]
         command << ['--username', options[:username]] if options[:username]
         command << ['--password', options[:password]] if options[:password]
         command << [new_resource.command]
         notifying_block do
-          execute command.flatten.join(' ') do
+          directory ::File.dirname(new_resource.jarfile) do
+            recursive true
+          end
+
+          remote_file new_resource.jarfile do
+            source URI.join(endpoint, '/jnlpJars/jenkins-cli.jar').to_s
+            action :create_if_missing
+          end
+
+          bash new_resource.command do
+            code command.flatten.join(' ')
             environment new_resource.environment
+            timeout options[:timeout]
             sensitive true
           end
         end

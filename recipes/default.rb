@@ -30,6 +30,7 @@ include_recipe 'poise-python::default'
 python_package 's3cmd'
 
 node.default['poise-ruby']['provider'] = 'ruby_build'
+
 node.default['poise-ruby']['install_ruby'] = true
 node.default['poise-ruby']['install_chef_ruby'] = false
 include_recipe 'poise-ruby::default'
