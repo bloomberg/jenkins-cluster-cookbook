@@ -13,8 +13,9 @@ module JenkinsClusterCookbook
   module Resource
     # A `jenkins_plugin` resource which manages the installation of
     # the plugins of a Jenkins instance.
-    # @provides create
-    # @provides remove
+    # @action create
+    # @action remove
+    # @provides jenkins_plugin
     # @since 1.0
     class JenkinsPlugin < Chef::Resource
       include Poise(fused: true, parent: :jenkins_service)
@@ -28,8 +29,11 @@ module JenkinsClusterCookbook
       # The version of the Jenkins plugin to install.
       # @return [String]
       property(:version, kind_of: String, default: 'latest')
-
+      # @!attribute plugin_prefix
+      # @return [String]
       property(:plugin_prefix, kind_of: String, default: '/usr/local/lib/jenkins/plugins')
+      # @!attribute plugin_url
+      # @return [String]
       property(:plugin_url, kind_of: String, default: "https://mirrors.jenkins-ci.org/plugins/%{name}/%{version}/%{name}.hpi")
 
       action(:create) do

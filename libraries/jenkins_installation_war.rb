@@ -13,6 +13,7 @@ module JenkinsClusterCookbook
   module Provider
     # @action create
     # @action remove
+    # @provides jenkins_installation_package
     # @since 1.0
     class JenkinsInstallationWar < Chef::Provider
       include Poise(inversion: :jenkins_installation)

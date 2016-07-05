@@ -19,9 +19,17 @@ module JenkinsClusterCookbook
       include Poise(fused: true)
       provides(:jenkins_command)
 
+      # @!attribute command
+      # @return [String]
       property(:command, kind_of: [String, Array], name_attribute: true)
+      # @!attribute jarfile
+      # @return [String]
       property(:jarfile, kind_of: String, default: '/usr/local/share/jenkins/cli/java/cli.jar')
+      # @!attribute environment
+      # @return [Hash]
       property(:environment, option_collector: true, default: {})
+      # @!attribute options
+      # @return [Hash]
       property(:options, option_collector: true, default: {})
 
       action(:execute) do
