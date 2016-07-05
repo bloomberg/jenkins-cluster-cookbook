@@ -31,8 +31,8 @@ directory File.join(node['jenkins']['service_home'], 'plugins') do
   mode '0755'
 end
 
-log_file = File.join(node['jenkins']['service_home'], "#{node['jenkins']['service_name']}.log")
-node.default['logrotate']['global'][log_file] = {
+log_filename = File.join(node['jenkins']['service_home'], "#{node['jenkins']['service_name']}.log")
+node.default['logrotate']['global'][log_filename] = {
   'missingok' => true,
   'daily' => true,
   'copytruncate' => true,
@@ -48,7 +48,7 @@ template '/etc/default/jenkins' do
     java_options: node['jenkins']['java_options'],
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
-    log_file: File.join(node['jenkins']['service_home'], 'jenkins.log')
+    log_file: log_filename
 end
 
 jenkins_service node['jenkins']['service_name'] do
