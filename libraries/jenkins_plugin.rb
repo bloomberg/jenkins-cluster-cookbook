@@ -51,7 +51,7 @@ module JenkinsClusterCookbook
                      Shellwords.escape(new_resource.plugin_name),
                      '-name',
                      new_resource.plugin_name]
-            notifies :reload, new_resource.parent, :delayed
+            notifies :restart, new_resource.parent, :delayed
           end
         end
       end
@@ -66,7 +66,7 @@ module JenkinsClusterCookbook
           file ::File.join(new_resource.plugin_prefix, "#{new_resource.plugin_name}.hpi") do
             backup false
             action :delete
-            notifies :reload, new_resource.parent, :delayed
+            notifies :restart, new_resource.parent, :delayed
           end
         end
       end
