@@ -12,3 +12,5 @@ default['jenkins']['service_user'] = 'jenkins'
 default['jenkins']['service_group'] = 'jenkins'
 default['jenkins']['service_home'] = '/var/lib/jenkins'
 default['jenkins']['java_options'] = '-Djava.awt.headless=true -Xmx2048m'
+
+default['jenkins']['docker']['bip'] = "192.168.135.1/24"

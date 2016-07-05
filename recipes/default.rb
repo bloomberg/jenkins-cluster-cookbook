@@ -68,4 +68,5 @@ end
 
 docker_service 'default' do
   action [:create, :start]
+  bip node['jenkins']['docker']['bip']
 end
