@@ -8,7 +8,7 @@
 # Copyright 2014-2016, Bloomberg Finance L.P.
 #
 include_recipe 'jenkins-cluster::default'
-fail unless linux?
+raise unless linux?
 
 node.default['haproxy']['incoming_port'] = 80
 node.default['haproxy']['members'] = [
@@ -44,13 +44,11 @@ include_recipe 'logrotate::global'
 
 template '/etc/default/jenkins' do
   source 'jenkins-config.sh.erb'
-  variables(
-    directory: File.join(node['jenkins']['service_home'], 'workspace'),
+  variables directory: File.join(node['jenkins']['service_home'], 'workspace'),
     java_options: node['jenkins']['java_options'],
     service_user: node['jenkins']['service_user'],
     service_group: node['jenkins']['service_group'],
     log_file: File.join(node['jenkins']['service_home'], 'jenkins.log')
-  )
 end
 
 jenkins_service node['jenkins']['service_name'] do
