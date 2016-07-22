@@ -49,6 +49,10 @@ user node['jenkins']['service_user'] do
   manage_home true
 end
 
+group 'docker' do
+  members node['jenkins']['service_user']
+end
+
 directory node['jenkins']['service_home'] do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
@@ -66,7 +70,7 @@ user_ulimit node['jenkins']['service_user'] do
   not_if { windows? }
 end
 
-docker_service 'default' do
+docker_service 'default' do |r|
   action [:create, :start]
-  bip node['jenkins']['docker']['bip']
+  node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
 end
