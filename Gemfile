@@ -1,22 +1,26 @@
 source 'https://rubygems.org'
-gem 'poise', '~> 2.2'
-gem 'poise-service'
+gem 'poise', '~> 2.7'
+gem 'poise-archive', '~> 1.2'
+gem 'poise-service', '~> 1.0'
 gem 'poise-boiler'
-gem 'chef-sugar'
 
 group :lint do
-  gem 'rubocop'
   gem 'cookstyle'
+  gem 'rubocop'
+  gem 'foodcritic'
 end
 
-group :test do
+group :unit, :integration do
   gem 'chef-dk'
   gem 'chefspec'
+  gem 'berkshelf'
+  gem 'test-kitchen'
   gem 'serverspec'
 end
 
 group :development do
   gem 'awesome_print'
+  gem 'rake'
   gem 'stove'
 end
 

@@ -12,7 +12,6 @@ require 'chef/sugar/core_extensions'
 
 include_recipe 'build-essential::default'
 include_recipe 'cmake::default'
-include_recipe 'chef-dk::default'
 include_recipe 'git::default'
 include_recipe 'mercurial::default'
 include_recipe 'subversion::client'
@@ -49,6 +48,10 @@ user node['jenkins']['service_user'] do
   manage_home true
 end
 
+node.default['chef_dk']['gems'] = %w[kitchen-dokken kitchen-openstack]
+node.default['chef_dk']['shell_users'] = [node['jenkins']['service_user']]
+include_recipe 'chef-dk::default'
+
 directory node['jenkins']['service_home'] do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
@@ -66,7 +69,13 @@ user_ulimit node['jenkins']['service_user'] do
   not_if { windows? }
 end
 
-docker_service 'default' do
-  action [:create, :start]
-  bip node['jenkins']['docker']['bip']
+unless docker?
+  group 'docker' do
+    members node['jenkins']['service_user']
+  end
+
+  docker_service 'default' do |r|
+    action [:create, :start]
+    node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
+  end
 end
