@@ -12,7 +12,6 @@ require 'chef/sugar/core_extensions'
 
 include_recipe 'build-essential::default'
 include_recipe 'cmake::default'
-include_recipe 'chef-dk::default'
 include_recipe 'git::default'
 include_recipe 'mercurial::default'
 include_recipe 'subversion::client'
@@ -48,6 +47,10 @@ user node['jenkins']['service_user'] do
   group node['jenkins']['service_group']
   manage_home true
 end
+
+node.default['chef_dk']['gems'] = %w[kitchen-dokken kitchen-openstack]
+node.default['chef_dk']['shell_users'] = [node['jenkins']['service_user']]
+include_recipe 'chef-dk::default'
 
 group 'docker' do
   members node['jenkins']['service_user']
