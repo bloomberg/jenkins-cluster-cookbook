@@ -1,36 +1,86 @@
 ---
 driver:
-  name: vagrant
-  config:
-    linked_clone: true
-  customize:
-    cpus: 2
-    memory: 2048
+  name: dokken
+  chef_version: latest
+  privileged: true
+
+transport:
+  name: dokken
+
 provisioner:
-  name: chef_zero
+  name: dokken
+
+verifier:
+  root_path: /opt/verifier
+
 platforms:
+  - name: centos-7
+    named_run_list: centos
+    driver:
+      image: centos:7
+      platform: rhel
+      pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        - RUN yum -y install lsof which systemd-sysv initscripts sudo
+    attributes:
+      poise-service:
+        nrpe:
+          provider: systemd
+  - name: centos-6
+    named_run_list: centos
+    driver:
+      image: centos:6
+      platform: rhel
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN yum -y install which initscripts sudo
+    attributes:
+      poise-service:
+        nrpe:
+          provider: upstart
+  - name: centos-5
+    named_run_list: centos
+    driver:
+      image: centos:5
+      platform: rhel
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN yum -y install which initscripts sudo
   - name: ubuntu-16.04
-    named_run_list: ubuntu
+    named_run_list: debian
+    driver:
+      image: ubuntu:16.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
+    attributes:
+      poise-service:
+        nrpe:
+          provider: systemd
   - name: ubuntu-14.04
-    named_run_list: ubuntu
+    named_run_list: debian
+    driver:
+      image: ubuntu-upstart:14.04
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
+    attributes:
+      poise-service:
+        nrpe:
+          provider: upstart
   - name: ubuntu-12.04
-    named_run_list: ubuntu
-  - name: centos-7.2
-    named_run_list: redhat
-  - name: centos-6.7
-    named_run_list: redhat
-  - name: centos-5.11
-    named_run_list: redhat
-  - name: windows-2012r2
-    named_run_list: windows
-  - name: windows-2008r2
-    named_run_list: windows
+    named_run_list: debian
+    driver:
+      image: ubuntu-upstart:12.04
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
+    attributes:
+      poise-service:
+        nrpe:
+          provider: upstart
 suites:
-  - name: package
-    attributes:
-      jenkins:
-        provider: package
-  - name: war
-    attributes:
-      jenkins:
-        provider: war
+  - name: default
