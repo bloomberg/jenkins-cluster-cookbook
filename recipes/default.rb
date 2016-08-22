@@ -52,10 +52,6 @@ node.default['chef_dk']['gems'] = %w[kitchen-dokken kitchen-openstack]
 node.default['chef_dk']['shell_users'] = [node['jenkins']['service_user']]
 include_recipe 'chef-dk::default'
 
-group 'docker' do
-  members node['jenkins']['service_user']
-end
-
 directory node['jenkins']['service_home'] do
   owner node['jenkins']['service_user']
   group node['jenkins']['service_group']
@@ -73,7 +69,13 @@ user_ulimit node['jenkins']['service_user'] do
   not_if { windows? }
 end
 
-docker_service 'default' do |r|
-  action [:create, :start]
-  node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
+unless docker?
+  group 'docker' do
+    members node['jenkins']['service_user']
+  end
+
+  docker_service 'default' do |r|
+    action [:create, :start]
+    node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
+  end
 end
