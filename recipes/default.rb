@@ -74,8 +74,8 @@ unless docker?
     members node['jenkins']['service_user']
   end
 
-  docker_service 'default' do |r|
-    action [:create, :start]
-    node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
-  end
+  # docker_service 'default' do |r|
+  #   action [:create, :start]
+  #   node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
+  # end
 end
