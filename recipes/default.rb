@@ -68,14 +68,3 @@ user_ulimit node['jenkins']['service_user'] do
   filehandle_limit 8192
   not_if { windows? }
 end
-
-unless docker?
-  group 'docker' do
-    members node['jenkins']['service_user']
-  end
-
-  # docker_service 'default' do |r|
-  #   action [:create, :start]
-  #   node['jenkins']['docker'].each_pair { |k, v| r.send(k, v) }
-  # end
-end
