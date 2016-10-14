@@ -62,4 +62,5 @@ docker_service 'default' do
   action [:create, :start]
   group 'docker'
   bip '192.18.0.1/15'
+  ipv6 false
 end
