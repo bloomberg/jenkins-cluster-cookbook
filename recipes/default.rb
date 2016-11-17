@@ -21,16 +21,30 @@ include_recipe 'terraform::default'
 include_recipe 'packer::default'
 include_recipe 'selinux::disabled' if linux?
 
-node.default['firewall']['allow_winrm'] = true if windows?
-node.default['firewall']['allow_ssh'] = true unless windows?
-include_recipe 'firewall::default'
-
 group node['jenkins']['service_group']
 user node['jenkins']['service_user'] do
   home node['jenkins']['service_home']
   group node['jenkins']['service_group']
   manage_home true
 end
+
+node.default['firewall']['allow_winrm'] = true if windows?
+node.default['firewall']['allow_ssh'] = true unless windows?
+include_recipe 'firewall::default'
+
+node.default['poise-python']['provider'] = 'system'
+node.default['poise-python']['install_python2'] = true
+include_recipe 'poise-python::default'
+python_package 's3cmd'
+
+node.default['poise-javascript']['install_nodejs'] = true
+include_recipe 'poise-javascript::default'
+node_package 'bower'
+node_package 'grunt'
+
+node.default['chef_dk']['gems'] = %w[kitchen-dokken kitchen-openstack]
+node.default['chef_dk']['shell_users'] = [node['jenkins']['service_user']]
+include_recipe 'chef-dk::default'
 
 directory node['jenkins']['service_home'] do
   owner node['jenkins']['service_user']
@@ -49,18 +63,9 @@ user_ulimit node['jenkins']['service_user'] do
   not_if { windows? }
 end
 
-node.override['poise-python']['provider'] = 'system'
-node.override['poise-python']['install_python2'] = true
-include_recipe 'poise-python::default'
-python_package 's3cmd'
-
-node.override['chef_dk']['gems'] = %w{kitchen-dokken kitchen-openstack}
-node.override['chef_dk']['global_shell_init'] = true
-include_recipe 'chef-dk::default'
-
 docker_service 'default' do
   action [:create, :start]
-  group 'docker'
+  group node['jenkins']['service_group']
   bip '192.18.0.1/15'
   ipv6 false
 end
