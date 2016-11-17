@@ -24,7 +24,7 @@ module JenkinsClusterCookbook
       # @!attribute version
       # The version of Jenkins to install.
       # @return [String]
-      property(:version, kind_of: String, default: '1.651')
+      property(:version, kind_of: String, default: '2.19.3')
 
       # @return [String]
       def jenkins_warfile
