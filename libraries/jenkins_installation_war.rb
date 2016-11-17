@@ -35,7 +35,7 @@ module JenkinsClusterCookbook
       # @api private
       def self.default_inversion_options(_node, resource)
         super.merge(version: resource.version,
-          warfile_url: "http://mirrors.jenkins-ci.org/war/%{version}/jenkins.war",
+          warfile_url: "http://mirrors.jenkins-ci.org/war-stable/%{version}/jenkins.war",
           warfile_checksum: default_warfile_checksum(resource.version))
       end
 
@@ -75,12 +75,9 @@ module JenkinsClusterCookbook
 
       def self.default_warfile_checksum(version)
         case version
-        when '1.651' then '9fe9382e1443bb27de55dce15850bc0a0890d8aa837c3839fcf4407e1f7e4993'
-        when '1.658' then '108a496a01361e598cacbcdc8fcf4070e4dab215fb76f759dd75384af7104a3c'
-        when '2.7' then '2fead2f4aa0a8ba7d76b43fdb4ff5350bdd686bc21371f600861b7a85c51c605'
-        when '2.8' then '586b3ba1d1fcfd54a719fd34178b486a963eda91d7c56c98d7cb8ad82c6c050f'
-        when '2.9' then 'a2fa588244f82ee82ba8951a9611629109bd35a63ce48d15dae7c925c2da0a51'
-        when '2.10' then '47a64a0b32b1c3e1496e4663b9b3d94f4faa851e276a47b881ce8507712ea081'
+        when '1.651.3' then '9fe9382e1443bb27de55dce15850bc0a0890d8aa837c3839fcf4407e1f7e4993'
+        when '2.7.4' then '32e07928198e065965e598ab5a655e2d21be2407873ce2533d0edb58aa1a369a'
+        when '2.19.3' then 'bad23e08ce084fdaaccfb7c76fccf435f62cda30c6095b4b3929fb02a9ab3a36'
         end
       end
     end

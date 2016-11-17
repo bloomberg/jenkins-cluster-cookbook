@@ -4,7 +4,7 @@ maintainer_email 'jbellone@bloomberg.net'
 license 'Apache 2.0'
 description 'Application cookbook which installs and configures Jenkins.'
 long_description 'Application cookbook which installs and configures Jenkins.'
-version '1.1.0'
+version '1.2.0'
 source_url 'https://github.com/bloomberg/jenkins-cluster-cookbook'
 issues_url 'https://github.com/bloomberg/jenkins-cluster-cookbook/issues'
 
