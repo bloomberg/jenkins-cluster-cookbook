@@ -58,14 +58,15 @@ directory File.join(node['jenkins']['service_home'], 'workspace') do
   mode '0755'
 end
 
-user_ulimit node['jenkins']['service_user'] do
-  filehandle_limit 8192
-  not_if { windows? }
-end
+unless windows?
+  user_ulimit node['jenkins']['service_user'] do
+    filehandle_limit 8192
+  end
 
-docker_service 'default' do
-  action [:create, :start]
-  group node['jenkins']['service_group']
-  bip '192.18.0.1/15'
-  ipv6 false
+  docker_service 'default' do
+    action [:create, :start]
+    group node['jenkins']['service_group']
+    bip '192.18.0.1/15'
+    ipv6 false
+  end
 end
